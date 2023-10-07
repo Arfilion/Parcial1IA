@@ -2,54 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rest : State
+public class Patrol : State
 {
-    public float restCooldown = 10f;
+    public float restCooldown = 5f;
     public float cooldown;
     Hunter _hunter;
     Renderer _rend;
     public Transform _target;
 
-    public Rest(Hunter p)
+    public Patrol(Hunter p)
     {
         _hunter = p;
     }
 
     public override void OnEnter()
     {
-        //_rend.material.color = Color.green;
-        cooldown = 0;
+        //_rend.material.color = Color.blue;
     }
 
     public override void OnUpdate()
     {
         Vector2 dist = Hunter.instance.transform.position - Hunter.instance._target.position;
-        if (cooldown <= restCooldown)
-        {
-            cooldown += Time.deltaTime;
-        }
-        else if (cooldown > restCooldown)
-        {
-            cooldown = 0;
-            Hunter.instance.energy = 10;
-        }
+        
         if (Hunter.instance.energy > 0)
         {
-            if (dist.magnitude < Hunter.instance._radius)
+            if (dist.magnitude <= Hunter.instance._radius )
             {
                 fsm.ChangeState(EnemyActions.Chase);
             }
-            else
-            {
-                fsm.ChangeState(EnemyActions.Patrol);
-            }
+        }
+        else
+        {
+            fsm.ChangeState(EnemyActions.Rest);
         }
     }
 
     public override void OnExit()
     {
-       // _rend.material.color = Color.white;
-
+        //_rend.material.color = Color.white;
     }
 
 

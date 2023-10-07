@@ -6,7 +6,8 @@ public class Hunter : MonoBehaviour
 {
     public int energy;
     [SerializeField] int maxEnergy;
-    [SerializeField] float _radius;
+    public float _radius;
+    public Transform _target;
     public static Hunter instance;
     FiniteStateMachine _fsm; 
 
@@ -29,7 +30,8 @@ public class Hunter : MonoBehaviour
         _fsm = new FiniteStateMachine(); 
         _fsm.AddState(EnemyActions.Rest, new Rest(this));
         _fsm.AddState(EnemyActions.Chase, new Chase(this));
-        _fsm.ChangeState(EnemyActions.Chase);
+        _fsm.AddState(EnemyActions.Patrol, new Patrol(this));
+        _fsm.ChangeState(EnemyActions.Patrol);
     }
 
     // Update is called once per frame
