@@ -1,32 +1,35 @@
-using System.Collections;
+using  System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FiniteStateMachine : MonoBehaviour, IObserver
+public class FiniteStateMachine
 {
-    [SerializeField] Subject _hunter;
+    State _currentState;
+    Dictionary<EnemyActions, State> _allStates = new Dictionary<EnemyActions, State>();
 
-    // Start is called before the first frame update
-
-    public void OnNotify(EnemyActions action)
+    public void Update()
     {
-        switch (action)
+       
+        _currentState?.OnUpdate(); 
+    }
+
+    public void AddState(EnemyActions name, State state)
+    {
+        if (!_allStates.ContainsKey(name))
         {
-            case EnemyActions.Rest:
-                print("sanguchito");
-                //StartCoroutine(Rest());
-                return;
+            _allStates.Add(name, state);
+            state.fsm = this;
         }
+        else
+        {
+            _allStates[name] = state;
+        }
+    }
 
-    }
-    private void OnEnable()
+    public void ChangeState(EnemyActions name)
     {
-        _hunter.AddObserver(this);
+        _currentState?.OnExit();
+        if (_allStates.ContainsKey(name)) _currentState = _allStates[name];
+        _currentState?.OnEnter();
     }
-    private void OnDisable()
-    {
-        _hunter.RemoveObserver(this);
-
-    }
-    
 }

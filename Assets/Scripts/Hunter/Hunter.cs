@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hunter : Subject
+public class Hunter : MonoBehaviour
 {
-    public GameObject _prey;
-    public float energy;
-    public float maxEnergy=10;
-    public static Hunter instance;
+    public int energy;
+    [SerializeField] int maxEnergy;
     [SerializeField] float _radius;
+    public static Hunter instance;
+    FiniteStateMachine _fsm; 
 
-    // Start is called before the first frame update
+    
     void Awake()
     {
         if (instance == null)
@@ -24,21 +24,29 @@ public class Hunter : Subject
         energy = maxEnergy;
         
     }
+    void Start()
+    {
+        _fsm = new FiniteStateMachine(); 
+        _fsm.AddState(EnemyActions.Rest, new Rest(this));
+        _fsm.AddState(EnemyActions.Chase, new Chase(this));
+        _fsm.ChangeState(EnemyActions.Chase);
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (energy <=0) EventHasTriggered(EnemyActions.Rest);
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            energy -= 1;
-        }
-        if (energy <= 0) EventHasTriggered(EnemyActions.Chase);
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            energy -= 1;
-        }
+        _fsm.Update();
+        GetTired();
 
+    }
+    public void GetTired()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            energy -= 1;
+        if (energy <= 0) _fsm.ChangeState(EnemyActions.Rest);
+        }
+        
     }
 
     private void OnDrawGizmos()
@@ -47,3 +55,10 @@ public class Hunter : Subject
         Gizmos.DrawWireSphere(transform.position, _radius);
     }
 }
+public enum EnemyActions
+{
+    Chase,
+    Patrol,
+    Rest
+}
+
