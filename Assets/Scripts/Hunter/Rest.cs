@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Rest : State
 {
-    public float restCooldown = 10f;
+    public float restCooldown = 5f;
     public float cooldown;
     Hunter _hunter;
     Renderer _rend;
@@ -17,7 +17,7 @@ public class Rest : State
 
     public override void OnEnter()
     {
-        //_rend.material.color = Color.green;
+        Hunter.instance.renderer.material.color = Color.green;
         cooldown = 0;
     }
 
@@ -48,8 +48,6 @@ public class Rest : State
 
     public override void OnExit()
     {
-       // _rend.material.color = Color.white;
-
     }
 
 

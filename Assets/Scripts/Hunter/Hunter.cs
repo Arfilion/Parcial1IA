@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Hunter : MonoBehaviour
 {
-    public int energy;
-    [SerializeField] int maxEnergy;
+    public float energy;
+    [SerializeField] float maxEnergy;
     public float _radius;
     public Transform _target;
     public static Hunter instance;
-    FiniteStateMachine _fsm; 
+    FiniteStateMachine _fsm;
+    public Renderer renderer;
 
     
     void Awake()

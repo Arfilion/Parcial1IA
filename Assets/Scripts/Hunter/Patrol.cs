@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Patrol : State
 {
-    public float restCooldown = 5f;
     public float cooldown;
     Hunter _hunter;
     Renderer _rend;
@@ -17,13 +16,13 @@ public class Patrol : State
 
     public override void OnEnter()
     {
-        //_rend.material.color = Color.blue;
+        Hunter.instance.renderer.material.color = Color.blue;
     }
 
     public override void OnUpdate()
     {
         Vector2 dist = Hunter.instance.transform.position - Hunter.instance._target.position;
-        
+        Hunter.instance.energy -= Time.deltaTime;
         if (Hunter.instance.energy > 0)
         {
             if (dist.magnitude <= Hunter.instance._radius )
@@ -39,7 +38,6 @@ public class Patrol : State
 
     public override void OnExit()
     {
-        //_rend.material.color = Color.white;
     }
 
 

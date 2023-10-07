@@ -17,11 +17,12 @@ public class Chase : State
 
     public override void OnEnter()
     {
-       // _rend.material.color = Color.red;
+        Hunter.instance.renderer.material.color = Color.red;
     }
 
     public override void OnUpdate()
     {
+        Hunter.instance.energy -= Time.deltaTime * 2;
         Vector2 dist = Hunter.instance.transform.position - Hunter.instance._target.position;
         if (Hunter.instance.energy <= 0)
         {
@@ -38,8 +39,6 @@ public class Chase : State
 
     public override void OnExit()
     {
-        //_rend.material.color = Color.white;
-
     }
 
 
