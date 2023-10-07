@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Hunter : Subject
 {
+    public GameObject _prey;
     public float energy;
     public float maxEnergy=10;
     public static Hunter instance;
+    [SerializeField] float _radius;
 
     // Start is called before the first frame update
     void Awake()
@@ -31,8 +33,17 @@ public class Hunter : Subject
         {
             energy -= 1;
         }
+        if (energy <= 0) EventHasTriggered(EnemyActions.Chase);
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            energy -= 1;
+        }
 
     }
 
-    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _radius);
+    }
 }
