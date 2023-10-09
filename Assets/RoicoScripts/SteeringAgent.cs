@@ -10,6 +10,7 @@ public class SteeringAgent : MonoBehaviour
     protected Vector3 _veclocity;
 
     [SerializeField] LayerMask _obstacles;
+    internal Vector3 _velocity;
 
     // Start is called before the first frame update
     void Start()

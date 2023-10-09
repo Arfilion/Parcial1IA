@@ -23,7 +23,7 @@ public class Rest : State
 
     public override void OnUpdate()
     {
-        Vector2 dist = Hunter.instance.transform.position - Hunter.instance._target.position;
+        Vector2 dist = Hunter.instance.transform.position - Hunter.instance._target.transform.position;
         if (cooldown <= restCooldown)
         {
             cooldown += Time.deltaTime;

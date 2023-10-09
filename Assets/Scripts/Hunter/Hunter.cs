@@ -6,13 +6,15 @@ public class Hunter : MonoBehaviour
 {
     public float energy;
     [SerializeField] float maxEnergy;
-    public float _radius;
-    public Transform _target;
+    public float _radius; //revisar y coincidir
+    public SteeringAgent _target;
     public static Hunter instance;
     FiniteStateMachine _fsm;
     public Renderer renderer;
-
-    
+    public float _maxSpeed, _maxForce;
+    public float _viewRadius;
+    public Vector3 _velocity;
+    public SteeringAgent prey;
     void Awake()
     {
         if (instance == null)
@@ -39,18 +41,9 @@ public class Hunter : MonoBehaviour
     void Update()
     {
         _fsm.Update();
-        GetTired();
 
     }
-    public void GetTired()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            energy -= 1;
-        if (energy <= 0) _fsm.ChangeState(EnemyActions.Rest);
-        }
-        
-    }
+ 
 
     private void OnDrawGizmos()
     {
