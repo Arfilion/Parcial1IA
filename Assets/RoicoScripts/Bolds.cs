@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bolds : SteeringAgent
 {
     [SerializeField] Transform _target;
+    [SerializeField] float _rangeToKill;
 
     [SerializeField, Range(0f, 5f)] float _aligmentWeight = 1;
     [SerializeField, Range(0f, 5f)] float _separationWeight = 1;
@@ -34,8 +35,10 @@ public class Bolds : SteeringAgent
         {
             AddForce(Arrive(_target.position));
         }
+        
 
         Move();
+        KillMyTarget();
         UpdateBoundPosition();
         Flocking();
     }
@@ -54,7 +57,15 @@ public class Bolds : SteeringAgent
     {
         transform.position = GameManager.instance.AdjustPositionToBounds(transform.position);
     }
-
+    private void KillMyTarget()
+    {
+        if (Vector3.Distance(transform.position, _target.transform.position) <= _rangeToKill)
+        {
+            _target.position = new Vector3 (Random.Range(0,6f), Random.Range(0, 6f),0f);
+            
+        }
+            
+    }
     protected override void OnDrawGizmos()
     {
         //si esta vacio no tenemos ningun gizmo en pantalla

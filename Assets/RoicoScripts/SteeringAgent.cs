@@ -7,6 +7,7 @@ public class SteeringAgent : MonoBehaviour
     // [SerializeField] Transform _seekTarget, _fleeTarget;
     [SerializeField] protected float _maxspeed, _maxforce;
     [SerializeField] float _viewRadius;
+    [SerializeField] float _separatedViewRadius;
     protected Vector3 _veclocity;
 
     [SerializeField] LayerMask _obstacles;
@@ -31,10 +32,10 @@ public class SteeringAgent : MonoBehaviour
     protected bool HasToUseObstacleAvoidance()
     {
         Vector3 avoidanceObs = obstacleAvoidance(); //queremos un vector 3 que guarde el valor del raycast
-        if (avoidanceObs != Vector3.zero) // si es diferente a vector3. zero
-        {
+       // if (avoidanceObs != Vector3.zero) // si es diferente a vector3. zero
+     //   {
             AddForce(avoidanceObs);
-        }
+      //  }
         return avoidanceObs != Vector3.zero; // solo si es diferente de cero
     }
 
@@ -121,14 +122,12 @@ public class SteeringAgent : MonoBehaviour
     {
         Vector3 desired = Vector3.zero;
 
-
-
         foreach (var item in agents) //collection reemplazamos por parametro / todos los items
         {
             if (item == this) continue; //ignoro mi propio calculo y fcontinuoa con el siguiente
             Vector3 dist = item.transform.position - transform.position; //distancia
 
-            if (dist.sqrMagnitude > _viewRadius * _viewRadius) continue; //se multiplica para que no quede chico
+            if (dist.sqrMagnitude > _separatedViewRadius * _separatedViewRadius) continue; //se multiplica para que no quede chico
 
             desired += dist;
         }
@@ -138,6 +137,7 @@ public class SteeringAgent : MonoBehaviour
         desired *= -1;
         return CalculateSteering(desired.normalized * _maxspeed);
     }
+
     protected Vector3 Cohesion(List<SteeringAgent> agents)
     {
         Vector3 desired = Vector3.zero;
