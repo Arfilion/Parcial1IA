@@ -31,7 +31,7 @@ public class Rest : State
         else if (cooldown > restCooldown)
         {
             cooldown = 0;
-            Hunter.instance.energy = 10;
+            Hunter.instance.energy = 50;
         }
         if (Hunter.instance.energy > 0)
         {
