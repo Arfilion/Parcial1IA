@@ -6,7 +6,6 @@ public class Chase : State
 {
     Renderer _rend;
     Hunter _hunter;
-    HunterSteering hunterSteering;
 
 
     
@@ -23,10 +22,42 @@ public class Chase : State
 
     public override void OnUpdate()
     {
-        Hunter.instance.AddForce(Hunter.instance.Persuit(Hunter.instance.prey));
-        Hunter.instance.Move();
-        Hunter.instance.Arrive(Hunter.instance._target.transform.position);
+        Vector3 avoidanceObs = Hunter.instance.obstacleAvoidance();
 
+        if (avoidanceObs != Vector3.zero)
+        {
+            Hunter.instance.AddForce(avoidanceObs);
+        }
+        else if (Vector3.Distance(Hunter.instance.transform.position, Hunter.instance._fleeTarget.position) <= Hunter.instance._viewRadius)
+        {
+        }
+        else
+        {
+            Hunter.instance.AddForce(Hunter.instance.Arrive(Hunter.instance._seekTarget.position));
+        }
+
+        /*transform.position += _velocity * Time.deltaTime;
+        if (_velocity != Vector3.zero) transform.right = _velocity;*/
+
+
+
+
+
+
+
+
+
+
+
+
+        Hunter.instance.Arrive(Hunter.instance._target.transform.position);
+        Hunter.instance.Move();
+        
+        
+        
+        
+        
+        
         Hunter.instance.energy -= Time.deltaTime * 2;
         Vector2 dist = Hunter.instance.transform.position - Hunter.instance._target.transform.position;
         if (Hunter.instance.energy <= 0)
@@ -35,52 +66,16 @@ public class Chase : State
         }
         else
         {
-            if (dist.magnitude > Hunter.instance._radius)
+            if (dist.magnitude > Hunter.instance._viewRadius)
             {
                 fsm.ChangeState(EnemyActions.Patrol);
             }
         }
+        Debug.Log(Hunter.instance.obstacleAvoidance());
+
     }
 
     public override void OnExit()
     {
-    }
-     /*protected Vector3 Pursuit(SteeringAgent targetAgent) //Nosotros queremos ir hacia donde va nuestro objetivo, no hacia donde esta
-     {
-        Vector3 futurePos = targetAgent.transform.position + targetAgent._velocity;
-        return Seek(futurePos);
-     }
-    protected Vector3 Seek(Vector3 targetPos)
-    {
-        return Seek(targetPos, Hunter.instance._maxSpeed);
-    }
-
-    protected Vector3 Seek(Vector3 targetPos, float speed)
-    {
-        Vector3 desired = (targetPos - Hunter.instance.transform.position).normalized * speed;
-
-        Vector3 steering = desired - Hunter.instance._velocity;
-
-        steering = Vector3.ClampMagnitude(steering, Hunter.instance._maxForce * Time.deltaTime);
-
-        return steering;
-    }
-    protected void AddForce(Vector3 force)
-    {
-        Hunter.instance._velocity = Vector3.ClampMagnitude(Hunter.instance._velocity + force, Hunter.instance._maxSpeed);
-    }
-
-    protected void Move()
-    {
-        Hunter.instance.transform.position += Hunter.instance._velocity * Time.deltaTime;
-        if (Hunter.instance._velocity != Vector3.zero) Hunter.instance.transform.right = Hunter.instance._velocity;
-    }
-    protected Vector3 Arrive(Vector3 targetPos)
-    {
-        float dist = Vector3.Distance(Hunter.instance.transform.position, targetPos);
-        Debug.Log(dist);
-        if (dist > Hunter.instance._viewRadius) return Seek(targetPos);
-
-        return Seek(targetPos, Hunter.instance._maxSpeed * (dist / Hunter.instance._viewRadius));
-    }*/
+    }     
 }

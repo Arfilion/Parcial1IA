@@ -25,7 +25,7 @@ public class Patrol : State
         Hunter.instance.energy -= Time.deltaTime;
         if (Hunter.instance.energy > 0)
         {
-            if (dist.magnitude <= Hunter.instance._radius )
+            if (dist.magnitude <= Hunter.instance._viewRadius)
             {
                 fsm.ChangeState(EnemyActions.Chase);
             }

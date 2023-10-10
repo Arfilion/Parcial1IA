@@ -97,20 +97,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f464eb5fed7d9eb4c9ed104095f3f632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxspeed: 0
-  _maxforce: 0
-  _viewRadius: 10
+  _seekTarget: {fileID: 0}
+  _fleeTarget: {fileID: 0}
+  _maxspeed: 5
+  _maxforce: 2
+  _viewRadius: 7
   _separatedViewRadius: 0
   _obstacles:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   energy: 0
-  maxEnergy: 10
-  _radius: 10
+  maxEnergy: 100
+  _radius: 7
   _target: {fileID: 0}
   renderer: {fileID: 8634549259160720446}
-  _maxSpeed: 10
-  _maxForce: 10
-  _viewRadius: 10
+  _maxSpeed: 5
+  _maxForce: 5
   _velocity: {x: 0, y: 0, z: 0}
   prey: {fileID: 0}
+  boidsInScene:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

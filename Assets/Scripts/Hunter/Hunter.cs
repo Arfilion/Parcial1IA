@@ -7,14 +7,10 @@ public class Hunter : SteeringAgent
 {
     public float energy;
     [SerializeField] float maxEnergy;
-    public float _radius; //revisar y coincidir
     public SteeringAgent _target;
     public static Hunter instance;
     FiniteStateMachine _fsm;
     public Renderer renderer;
-    public float _maxSpeed, _maxForce;
-    //public float _viewRadius;
-    public Vector3 _velocity;
     public SteeringAgent prey;
     [SerializeField] List<SteeringAgent> boidsInScene = new List<SteeringAgent>();
 
@@ -45,13 +41,6 @@ public class Hunter : SteeringAgent
     {
         _fsm.Update();
 
-    }
- 
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _radius);
     }
 }
 public enum EnemyActions

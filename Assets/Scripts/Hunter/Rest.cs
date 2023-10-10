@@ -35,7 +35,7 @@ public class Rest : State
         }
         if (Hunter.instance.energy > 0)
         {
-            if (dist.magnitude < Hunter.instance._radius)
+            if (dist.magnitude < Hunter.instance._viewRadius)
             {
                 fsm.ChangeState(EnemyActions.Chase);
             }

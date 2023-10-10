@@ -26,22 +26,29 @@ public class SteeringAgent : MonoBehaviour
         transform.position += _veclocity * Time.deltaTime;
         if (_veclocity != Vector3.zero) transform.right = _veclocity; //cuando no sea zero cumple con esto
     }
-    public bool HasToUseObstacleAvoidance()
+    public bool HastToUseObstacleAvoidance()
     {
-        Vector3 avoidanceObs = obstacleAvoidance(); //queremos un vector 3 que guarde el valor del raycast
-        if (avoidanceObs != Vector3.zero)
+        Vector3 avoidanceObs = obstacleAvoidance();
+        AddForce(avoidanceObs);
+        return avoidanceObs != Vector3.zero;
+    }
+    public Vector3 obstacleAvoidance() //para que vaya frenando de a poco
+    {
+
+        if (Physics.Raycast(transform.position + transform.up * 0.5f, transform.right, _viewRadius, _obstacles))
         {
-            AddForce(avoidanceObs);
+            print("sanguchito");
+            return Seek(transform.position - transform.up);
+
         }
-        else if (Vector3.Distance(transform.position, _fleeTarget.position) <= _viewRadius)
+        else if (Physics.Raycast(transform.position - transform.up * 0.5f, transform.right, _viewRadius, _obstacles))
         {
-            AddForce(Flee(_fleeTarget.position));
+            return Seek(transform.position + transform.up);
         }
         else
         {
-            AddForce(Arrive(_seekTarget.position));
+            return Vector3.zero;
         }
-        return avoidanceObs != Vector3.zero; // solo si es diferente de cero
     }
 
     public Vector3 Seek(Vector3 targetPos, float speed) //vectr 3 targetpos//llamarlo en update
@@ -76,43 +83,7 @@ public class SteeringAgent : MonoBehaviour
         //por la velocidad variable
     }
 
-    public Vector3 obstacleAvoidance() //para que vaya frenando de a poco
-    {
-        if (Physics.Raycast(transform.position + transform.up * 0.5f, transform.right, _viewRadius, _obstacles))
-            return Seek(transform.position - transform.up);
-        else if (Physics.Raycast(transform.position - transform.up * 0.5f, transform.right, _viewRadius, _obstacles))
-            return Seek(transform.position + transform.up);
-        else if (Physics.Raycast(transform.position, transform.right, _viewRadius, _obstacles))
-        { 
-            Vector3 desired = transform.position - transform.up;  
-            return Seek(desired);
-        }
-        return Vector3.zero;
-
-        //(Physics.Raycast(transform.position, transform.right, _viewRadius,  1<<6)) esto para decirle que vea la layer 6
-        //(Physics.Raycast(transform.position, transform.right, _viewRadius, 6  // toma todas las layers hasta la 6
-
-
-        /*if (Physics.Raycast(transform.position, transform.right, _viewRadius, _obstacles)) //inicio,direccion, max distance de largo y layermask
-        { //le agregamos el 0.5 de tama;'o del 
-            Vector3 desired = transform.position - transform.up;  //si queremos ir a la derecha debemos restarlo / nose si esta en 2d
-
-            return Seek(desired);
-        }
-        else if (Physics.Raycast(transform.position + transform.up * 0.5f, transform.right, _viewRadius, _obstacles)) //inicio,direccion, max distance de largo y layermask
-        { //le agregamos el 0.5 de tama;'o del 
-          // Vector3 desired = transform.position - transform.up;  //si queremos ir a la derecha debemos restarlo / nose si esta en 2d
-
-            return Seek(transform.position - transform.up);
-        }
-        else if (Physics.Raycast(transform.position - transform.up * 0.5f, transform.right, _viewRadius, _obstacles))
-        {
-            //Vector3 desired = transform.position - transform.up;  //si queremos ir a la derecha debemos restarlo / nose si esta en 2d
-
-            return Seek(transform.position - transform.up);
-        }
-        return Vector3.zero;//para que cuando no toque ningun obstaculo sea cero */
-    }
+   
 
     public Vector3 Persuit(SteeringAgent targetAgent) //para que persiga al agente, queremos interceptar al obj
     {// como ambos objetos heredan de steering agent, podemos acceder
@@ -218,7 +189,6 @@ public class SteeringAgent : MonoBehaviour
 
     public virtual void OnDrawGizmos() //nos sirve para ver la esfera de radio
     {
-
         Gizmos.color = Color.green; //
 
         Gizmos.DrawLine(transform.position, transform.position + transform.right * _viewRadius); //para el raycast

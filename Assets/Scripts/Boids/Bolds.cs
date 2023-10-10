@@ -44,7 +44,7 @@ public class Bolds : SteeringAgent
         {
             AddForce(Arrive(_seekTarget.position));
         }
-            Debug.Log((Vector3.Distance(transform.position, _target.transform.position)));
+        
         if (Vector3.Distance(transform.position, _target.transform.position) <= _rangeToKill)
         {
             KillMyTarget();
