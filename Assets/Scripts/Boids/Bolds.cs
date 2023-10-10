@@ -30,15 +30,26 @@ public class Bolds : SteeringAgent
     // Update is called once per frame
     void Update()
     {
+        Vector3 avoidanceObs = obstacleAvoidance();
 
-        if (!HasToUseObstacleAvoidance())
+        if (avoidanceObs != Vector3.zero)
         {
-            AddForce(Arrive(_target.position));
+            AddForce(avoidanceObs);
         }
-        
-
+        else if (Vector3.Distance(transform.position, _fleeTarget.position) <= _viewRadius)
+        {
+            AddForce(Flee(_fleeTarget.position));
+        }
+        else
+        {
+            AddForce(Arrive(_seekTarget.position));
+        }
+            Debug.Log((Vector3.Distance(transform.position, _target.transform.position)));
+        if (Vector3.Distance(transform.position, _target.transform.position) <= _rangeToKill)
+        {
+            KillMyTarget();
+        }
         Move();
-        KillMyTarget();
         UpdateBoundPosition();
         Flocking();
     }
@@ -58,19 +69,8 @@ public class Bolds : SteeringAgent
         transform.position = GameManager.instance.AdjustPositionToBounds(transform.position);
     }
     private void KillMyTarget()
-    {
-        if (Vector3.Distance(transform.position, _target.transform.position) <= _rangeToKill)
-        {
-            _target.position = new Vector3 (Random.Range(0,6f), Random.Range(0, 6f),0f);
-            
-        }
-            
+    {        
+            _target.position = new Vector3 (Random.Range(0,6f), Random.Range(0, 6f),0f);            
     }
-    protected override void OnDrawGizmos()
-    {
-        //si esta vacio no tenemos ningun gizmo en pantalla
-
-        // Gizmos.DrawWireSphere(transform.position, _viewRadius);
-
-    }
+    
 }

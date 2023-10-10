@@ -9,7 +9,7 @@ public class Chase : State
     HunterSteering hunterSteering;
 
 
-
+    
     public Chase(Hunter p)
     {
         _rend = p.GetComponent<Renderer>();
@@ -23,9 +23,9 @@ public class Chase : State
 
     public override void OnUpdate()
     {
-        AddForce(Pursuit(Hunter.instance.prey));
-        Move();
-        Arrive(Hunter.instance._target.transform.position);
+        Hunter.instance.AddForce(Hunter.instance.Persuit(Hunter.instance.prey));
+        Hunter.instance.Move();
+        Hunter.instance.Arrive(Hunter.instance._target.transform.position);
 
         Hunter.instance.energy -= Time.deltaTime * 2;
         Vector2 dist = Hunter.instance.transform.position - Hunter.instance._target.transform.position;
@@ -45,7 +45,7 @@ public class Chase : State
     public override void OnExit()
     {
     }
-     protected Vector3 Pursuit(SteeringAgent targetAgent) //Nosotros queremos ir hacia donde va nuestro objetivo, no hacia donde esta
+     /*protected Vector3 Pursuit(SteeringAgent targetAgent) //Nosotros queremos ir hacia donde va nuestro objetivo, no hacia donde esta
      {
         Vector3 futurePos = targetAgent.transform.position + targetAgent._velocity;
         return Seek(futurePos);
@@ -78,8 +78,9 @@ public class Chase : State
     protected Vector3 Arrive(Vector3 targetPos)
     {
         float dist = Vector3.Distance(Hunter.instance.transform.position, targetPos);
+        Debug.Log(dist);
         if (dist > Hunter.instance._viewRadius) return Seek(targetPos);
 
         return Seek(targetPos, Hunter.instance._maxSpeed * (dist / Hunter.instance._viewRadius));
-    }
+    }*/
 }

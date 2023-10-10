@@ -21,7 +21,7 @@ public class Patrol : State
 
     public override void OnUpdate()
     {
-        Vector2 dist = Hunter.instance.transform.position - Hunter.instance._target.transform.position;
+        Vector2 dist = Hunter.instance.transform.position - Hunter.instance._target.transform.position; 
         Hunter.instance.energy -= Time.deltaTime;
         if (Hunter.instance.energy > 0)
         {

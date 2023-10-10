@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SteeringAgent : MonoBehaviour
 {
-    // [SerializeField] Transform _seekTarget, _fleeTarget;
+    public Transform _seekTarget, _fleeTarget;
     [SerializeField] protected float _maxspeed, _maxforce;
-    [SerializeField] float _viewRadius;
+    public float _viewRadius;
     [SerializeField] float _separatedViewRadius;
     protected Vector3 _veclocity;
 
@@ -14,32 +14,37 @@ public class SteeringAgent : MonoBehaviour
     internal Vector3 _velocity;
 
     // Start is called before the first frame update
-    void Start()
-    {
+   
 
-    }
-
-    protected Vector3 Seek(Vector3 targetPos) //vectr 3 targetpos//llamarlo en update
+    public Vector3 Seek(Vector3 targetPos) //vectr 3 targetpos//llamarlo en update
     {
         return Seek(targetPos, _maxspeed);
     }
 
-    protected void Move()
+    public void Move()
     {
         transform.position += _veclocity * Time.deltaTime;
         if (_veclocity != Vector3.zero) transform.right = _veclocity; //cuando no sea zero cumple con esto
     }
-    protected bool HasToUseObstacleAvoidance()
+    public bool HasToUseObstacleAvoidance()
     {
         Vector3 avoidanceObs = obstacleAvoidance(); //queremos un vector 3 que guarde el valor del raycast
-       // if (avoidanceObs != Vector3.zero) // si es diferente a vector3. zero
-     //   {
+        if (avoidanceObs != Vector3.zero)
+        {
             AddForce(avoidanceObs);
-      //  }
+        }
+        else if (Vector3.Distance(transform.position, _fleeTarget.position) <= _viewRadius)
+        {
+            AddForce(Flee(_fleeTarget.position));
+        }
+        else
+        {
+            AddForce(Arrive(_seekTarget.position));
+        }
         return avoidanceObs != Vector3.zero; // solo si es diferente de cero
     }
 
-    protected Vector3 Seek(Vector3 targetPos, float speed) //vectr 3 targetpos//llamarlo en update
+    public Vector3 Seek(Vector3 targetPos, float speed) //vectr 3 targetpos//llamarlo en update
     {
         Vector3 desired = (targetPos - transform.position).normalized * speed;
 
@@ -47,10 +52,12 @@ public class SteeringAgent : MonoBehaviour
         steering = Vector3.ClampMagnitude(steering, _maxforce * Time.deltaTime);  //de a póquito gira hasta llegar alli
         return steering;
     }
-    Vector3 Flee(Vector3 targetPos) => -Seek(targetPos);   //le decimos que VAYA a / GOES TO / tiene return
+    public Vector3 Flee(Vector3 targetPos) => -Seek(targetPos);   //le decimos que VAYA a / GOES TO / tiene return
     //vectr 3 targetpos//llamarlo en update
 
-    protected Vector3 Arrive(Vector3 targetPos) //para que vaya frenando de a poco
+
+
+    public Vector3 Arrive(Vector3 targetPos) //para que vaya frenando de a poco
     {
         // return default; // el valor defaul de vectror 3 es ,0,0.0
         float Dist = Vector3.Distance(transform.position, targetPos);
@@ -69,13 +76,24 @@ public class SteeringAgent : MonoBehaviour
         //por la velocidad variable
     }
 
-    protected Vector3 obstacleAvoidance() //para que vaya frenando de a poco
+    public Vector3 obstacleAvoidance() //para que vaya frenando de a poco
     {
+        if (Physics.Raycast(transform.position + transform.up * 0.5f, transform.right, _viewRadius, _obstacles))
+            return Seek(transform.position - transform.up);
+        else if (Physics.Raycast(transform.position - transform.up * 0.5f, transform.right, _viewRadius, _obstacles))
+            return Seek(transform.position + transform.up);
+        else if (Physics.Raycast(transform.position, transform.right, _viewRadius, _obstacles))
+        { 
+            Vector3 desired = transform.position - transform.up;  
+            return Seek(desired);
+        }
+        return Vector3.zero;
+
         //(Physics.Raycast(transform.position, transform.right, _viewRadius,  1<<6)) esto para decirle que vea la layer 6
         //(Physics.Raycast(transform.position, transform.right, _viewRadius, 6  // toma todas las layers hasta la 6
 
 
-        if (Physics.Raycast(transform.position, transform.right, _viewRadius, _obstacles)) //inicio,direccion, max distance de largo y layermask
+        /*if (Physics.Raycast(transform.position, transform.right, _viewRadius, _obstacles)) //inicio,direccion, max distance de largo y layermask
         { //le agregamos el 0.5 de tama;'o del 
             Vector3 desired = transform.position - transform.up;  //si queremos ir a la derecha debemos restarlo / nose si esta en 2d
 
@@ -93,10 +111,10 @@ public class SteeringAgent : MonoBehaviour
 
             return Seek(transform.position - transform.up);
         }
-        return Vector3.zero;//para que cuando no toque ningun obstaculo sea cero 
+        return Vector3.zero;//para que cuando no toque ningun obstaculo sea cero */
     }
 
-    protected Vector3 Persuit(SteeringAgent targetAgent) //para que persiga al agente, queremos interceptar al obj
+    public Vector3 Persuit(SteeringAgent targetAgent) //para que persiga al agente, queremos interceptar al obj
     {// como ambos objetos heredan de steering agent, podemos acceder
 
         Vector3 futurePos = targetAgent.transform.position + targetAgent._veclocity;
@@ -105,7 +123,7 @@ public class SteeringAgent : MonoBehaviour
         //en evade es lo contrario
     }
 
-    protected Vector3 Evade(SteeringAgent targetAgent) //para que persiga al agente, queremos interceptar al obj
+    public Vector3 Evade(Hunter targetAgent) //para que persiga al agente, queremos interceptar al obj
     {// como ambos objetos heredan de steering agent, podemos acceder
 
 
@@ -118,7 +136,7 @@ public class SteeringAgent : MonoBehaviour
         transform.position = Vector3.zero;
     }
 
-    protected Vector3 Separated(List<SteeringAgent> agents)
+    public Vector3 Separated(List<SteeringAgent> agents)
     {
         Vector3 desired = Vector3.zero;
 
@@ -138,7 +156,7 @@ public class SteeringAgent : MonoBehaviour
         return CalculateSteering(desired.normalized * _maxspeed);
     }
 
-    protected Vector3 Cohesion(List<SteeringAgent> agents)
+    public Vector3 Cohesion(List<SteeringAgent> agents)
     {
         Vector3 desired = Vector3.zero;
 
@@ -161,7 +179,7 @@ public class SteeringAgent : MonoBehaviour
         desired /= boidscount;
         return Seek(desired);
     }
-    protected Vector3 Alignment(List<SteeringAgent> agents) //le pasamos la lista por parametro
+    public Vector3 Alignment(List<SteeringAgent> agents) //le pasamos la lista por parametro
     {
 
         Vector3 desired = Vector3.zero; //el promedio es 0 de base, puede darse el caso qu este separado
@@ -187,18 +205,18 @@ public class SteeringAgent : MonoBehaviour
         //debemos normalizarlo para que vayan a la misma velocidad
     }
 
-    protected Vector3 CalculateSteering(Vector3 desired)
+    public Vector3 CalculateSteering(Vector3 desired)
     {
         //de a póquito gira hasta llegar alli
         return Vector3.ClampMagnitude(desired - _veclocity, _maxforce * Time.deltaTime);
     }
 
-    protected void AddForce(Vector3 force) //nuestra locomocion
+    public void AddForce(Vector3 force) //nuestra locomocion
     {
         _veclocity = Vector3.ClampMagnitude(_veclocity + force, _maxspeed);
     }
 
-    protected virtual void OnDrawGizmos() //nos sirve para ver la esfera de radio
+    public virtual void OnDrawGizmos() //nos sirve para ver la esfera de radio
     {
 
         Gizmos.color = Color.green; //

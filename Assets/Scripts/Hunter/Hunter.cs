@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-public class Hunter : MonoBehaviour
+public class Hunter : SteeringAgent
 {
     public float energy;
     [SerializeField] float maxEnergy;
@@ -12,9 +13,11 @@ public class Hunter : MonoBehaviour
     FiniteStateMachine _fsm;
     public Renderer renderer;
     public float _maxSpeed, _maxForce;
-    public float _viewRadius;
+    //public float _viewRadius;
     public Vector3 _velocity;
     public SteeringAgent prey;
+    [SerializeField] List<SteeringAgent> boidsInScene = new List<SteeringAgent>();
+
     void Awake()
     {
         if (instance == null)
