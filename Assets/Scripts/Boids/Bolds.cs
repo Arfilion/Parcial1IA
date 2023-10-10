@@ -32,15 +32,15 @@ public class Bolds : SteeringAgent
     {
         Vector3 avoidanceObs = obstacleAvoidance();
 
-        if (avoidanceObs != Vector3.zero)
+        if (avoidanceObs != Vector3.zero)//esquivar
         {
             AddForce(avoidanceObs);
         }
-        else if (Vector3.Distance(transform.position, _fleeTarget.position) <= _viewRadius)
+        else if (Vector3.Distance(transform.position, _fleeTarget.position) <= _viewRadius)//escapar
         {
             AddForce(Flee(_fleeTarget.position));
         }
-        else
+        else//objetivo
         {
             AddForce(Arrive(_seekTarget.position));
         }

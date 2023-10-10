@@ -28,12 +28,12 @@ public class Chase : State
         {
             Hunter.instance.AddForce(avoidanceObs);
         }
-        else if (Vector3.Distance(Hunter.instance.transform.position, Hunter.instance._fleeTarget.position) <= Hunter.instance._viewRadius)
+        /*else if (Vector3.Distance(Hunter.instance.transform.position, Hunter.instance._fleeTarget.position) <= Hunter.instance._viewRadius)
         {
-        }
+        }*/
         else
         {
-            Hunter.instance.AddForce(Hunter.instance.Arrive(Hunter.instance._seekTarget.position));
+           // Hunter.instance.AddForce(Hunter.instance.Arrive(Hunter.instance._seekTarget.position));
         }
 
         /*transform.position += _velocity * Time.deltaTime;
@@ -71,7 +71,6 @@ public class Chase : State
                 fsm.ChangeState(EnemyActions.Patrol);
             }
         }
-        Debug.Log(Hunter.instance.obstacleAvoidance());
 
     }
 

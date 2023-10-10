@@ -9,7 +9,7 @@ public class SteeringAgent : MonoBehaviour
     public float _viewRadius;
     [SerializeField] float _separatedViewRadius;
     protected Vector3 _veclocity;
-
+    public float distanceToPatrol;
     [SerializeField] LayerMask _obstacles;
     internal Vector3 _velocity;
 
@@ -21,7 +21,7 @@ public class SteeringAgent : MonoBehaviour
         return Seek(targetPos, _maxspeed);
     }
 
-    public void Move()
+    public void Move()//MOVIL
     {
         transform.position += _veclocity * Time.deltaTime;
         if (_veclocity != Vector3.zero) transform.right = _veclocity; //cuando no sea zero cumple con esto
@@ -37,7 +37,6 @@ public class SteeringAgent : MonoBehaviour
 
         if (Physics.Raycast(transform.position + transform.up * 0.5f, transform.right, _viewRadius, _obstacles))
         {
-            print("sanguchito");
             return Seek(transform.position - transform.up);
 
         }

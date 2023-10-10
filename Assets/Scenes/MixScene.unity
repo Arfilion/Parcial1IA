@@ -205,7 +205,7 @@ PrefabInstance:
     - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
       propertyPath: prey
       value: 
-      objectReference: {fileID: 1149438376}
+      objectReference: {fileID: 1199237308}
     - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
       propertyPath: _radius
       value: 9.21
@@ -217,6 +217,18 @@ PrefabInstance:
     - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
       propertyPath: _viewRadius
       value: 16.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
+      propertyPath: patrolDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
+      propertyPath: distanceToPatrol
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
       propertyPath: boidsInScene.Array.data[0]
@@ -238,17 +250,37 @@ PrefabInstance:
       propertyPath: boidsInScene.Array.data[4]
       value: 
       objectReference: {fileID: 755606721}
+    - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
+      propertyPath: patrolPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1199237306}
+    - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
+      propertyPath: patrolPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 2015414720}
+    - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
+      propertyPath: patrolPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 1736922118}
+    - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
+      propertyPath: patrolPoints.Array.data[3]
+      value: 
+      objectReference: {fileID: 591375435}
+    - target: {fileID: 8634549259160720417, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
+      propertyPath: patrolPoints.Array.data[4]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8634549259160720447, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8634549259160720447, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -28.3
       objectReference: {fileID: 0}
     - target: {fileID: 8634549259160720447, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: -20.03
       objectReference: {fileID: 0}
     - target: {fileID: 8634549259160720447, guid: 60c4ac7e9a5a844499eb006b3532ee5e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -313,7 +345,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 591375435}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.2629, y: -1.3082, z: 0.0025514}
+  m_LocalPosition: {x: -15.33, y: -25.45, z: 0.0025514}
   m_LocalScale: {x: 0.41663, y: 0.41663, z: 0.41663}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -856,6 +888,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1199237307}
+  - component: {fileID: 1199237308}
   m_Layer: 0
   m_Name: Patrol Point
   m_TagString: Untagged
@@ -871,13 +904,35 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199237306}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.6739, y: 1.6332, z: 0.0025514}
+  m_LocalPosition: {x: -39.25, y: -14.53, z: 0.0025514}
   m_LocalScale: {x: 0.41663, y: 0.41663, z: 0.41663}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1199237308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199237306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecdbbdf060208a14ea23d45e9a462aa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seekTarget: {fileID: 0}
+  _fleeTarget: {fileID: 0}
+  _maxspeed: 0
+  _maxforce: 0
+  _viewRadius: 0
+  _separatedViewRadius: 0
+  distanceToPatrol: 0
+  _obstacles:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &1458949847
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1185,7 +1240,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736922118}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.6447, y: -1.0791, z: 0.0025514}
+  m_LocalPosition: {x: -37.287598, y: -26.070898, z: 0.0025514}
   m_LocalScale: {x: 0.41663, y: 0.41663, z: 0.41663}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1326,7 +1381,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826794205}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -27.5, y: -20.330002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1357,7 +1412,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2015414720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.538, y: 2.1498, z: 0.0025514}
+  m_LocalPosition: {x: -17.3449, y: -15.0720005, z: 0.0025514}
   m_LocalScale: {x: 0.41663, y: 0.41663, z: 0.41663}
   m_ConstrainProportionsScale: 0
   m_Children: []

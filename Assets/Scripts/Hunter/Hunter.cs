@@ -12,7 +12,9 @@ public class Hunter : SteeringAgent
     FiniteStateMachine _fsm;
     public Renderer renderer;
     public SteeringAgent prey;
-    [SerializeField] List<SteeringAgent> boidsInScene = new List<SteeringAgent>();
+    public List<SteeringAgent> boidsInScene;
+    public List<GameObject> patrolPoints;
+
 
     void Awake()
     {
@@ -25,7 +27,8 @@ public class Hunter : SteeringAgent
             Destroy(gameObject);
         }
         energy = maxEnergy;
-        
+        new List<SteeringAgent>();
+        new List<GameObject>();
     }
     void Start()
     {
